@@ -19,18 +19,10 @@ class FirefighterImpl(private val city: City) : Firefighter {
     }
 
     override fun fightFire(burningLocation: CityNode, routeMap: RouteMap) {
-        // Queue initialized with current location of firefighter.
-        val queue = ArrayDeque<CityNode>()
-        queue.add(getLocation())
-
-        // Keep track of where we've been.
-        val visited = mutableMapOf<CityNode, Boolean>()
-        visited[getLocation()] = true
-
         // Used to keep track of the prior travel location from each city node as the firefighter travels.
         val priorLocations = mutableMapOf<CityNode, CityNode>()
 
-        travelToBuilding(burningLocation, queue, visited, priorLocations, routeMap)
+        travelToBuilding(burningLocation, priorLocations, routeMap)
         val path = resolvePath(burningLocation, priorLocations)
 
         location = path.last()
@@ -40,17 +32,23 @@ class FirefighterImpl(private val city: City) : Firefighter {
     }
 
     /**
-     * Alternative recursive DFS using adjacent list (RouteMap) and queue approach to find
-     * shortest path to burning location.
+     * DFS using adjacent list (RouteMap) and iterative queue approach to find shortest path to burning location.
      */
     private fun travelToBuilding(
         burningLocation: CityNode,
-        queue: ArrayDeque<CityNode>,
-        visited: MutableMap<CityNode, Boolean>,
-        priorLocations: MutableMap<CityNode, CityNode>,
+        priorLocation: MutableMap<CityNode, CityNode>,
         routeMap: RouteMap
     ) {
-        if (queue.isNotEmpty()) {
+        // Queue initialized with current location of firefighter.
+        val queue = ArrayDeque<CityNode>()
+        queue.add(getLocation())
+
+        // Keep track of where we've been.
+        val visited = mutableMapOf<CityNode, Boolean>()
+        visited[getLocation()] = true
+
+        // DFS algorithm.  We'll stop when we find our burning building.
+        while (queue.isNotEmpty()) {
             val location = queue.removeFirst()
             val neighbors = routeMap[location]
 
@@ -58,7 +56,7 @@ class FirefighterImpl(private val city: City) : Firefighter {
                 for (neighbor in neighbors) {
                     if (visited[neighbor.location] != true) {
                         visited[neighbor.location] = true
-                        priorLocations[neighbor.location] = location
+                        priorLocation[neighbor.location] = location
 
                         if (neighbor.location == burningLocation) {
                             queue.clear()
@@ -69,8 +67,6 @@ class FirefighterImpl(private val city: City) : Firefighter {
                     }
                 }
             }
-
-            travelToBuilding(burningLocation, queue, visited, priorLocations, routeMap)
         }
     }
 
