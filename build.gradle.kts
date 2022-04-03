@@ -47,7 +47,7 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 tasks {
     withType<Detekt> {
         autoCorrect = true
-        enabled = false
+        enabled = true
     }
 
     withType<KotlinCompile> {
