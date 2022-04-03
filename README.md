@@ -2,12 +2,16 @@
 
 Ancient Roman Firefighters dispatcher and firefighter implementation.  Implementation is done in server side Kotlin.
 
+### Requirements ###
+
+* The Java JDK should be installed in your environment.
+* Project is self-contained and is able to download gradle and any needed dependencies.
+
 ### Building ###
 
 * Navigate to the root of the project using a command window.
 * Execute "./gradlew build" if on MacOS otherwise for Windows execute "gradlew.bat build"
 * The build gradle task will conduct the build and perform the associated BasicScenario tests.
-* Project should be self-contained be able to download gradle and any needed dependencies.
 
 ### Test Report ###
 
