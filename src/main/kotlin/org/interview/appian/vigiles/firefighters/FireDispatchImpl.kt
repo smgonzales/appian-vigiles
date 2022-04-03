@@ -9,7 +9,7 @@ import org.interview.appian.vigiles.api.RouteMap
 class FireDispatchImpl(private val city: City) : FireDispatch {
 
     private val firefighters = arrayListOf<Firefighter>()
-    private var routeMap: RouteMap = mutableMapOf()
+    private val routeMap: RouteMap = mutableMapOf()
 
     init {
         createRouteMap()
