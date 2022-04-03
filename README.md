@@ -4,7 +4,7 @@ Ancient Roman Firefighters dispatcher and firefighter implementation.  Implement
 
 ### Building ###
 
-* Navigation to the root of the project using a command window.
+* Navigate to the root of the project using a command window.
 * Execute "./gradlew build" if on MacOS otherwise for Windows execute "gradlew.bat build"
 * The build gradle task will conduct the build and perform the associated BasicScenario tests.
 * Project should be self-contained be able to download gradle and any needed dependencies.
