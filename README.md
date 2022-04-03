@@ -15,7 +15,7 @@ Execute "./gradlew viewTestReport" if on MacOS to see results of tests execution
 
 ### IntelliJ IDE ###
 
-Coding was done using IntelliJ with Gradle integration.  IntelliJ will be able to import and configure the project appropriately based on the gradle build files present in the project.
+Coding was done using IntelliJ with Gradle integration.  IntelliJ will be able to import and configure the project appropriately based on the gradle build files present in the project.  To allow IntelliJ to autoconfigure either create it as a new project from version control or import it as a Gradle project from existing sources. 
 
 ### References ###
 
