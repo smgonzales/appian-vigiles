@@ -53,7 +53,7 @@ class FirefighterImpl(private val city: City) : Firefighter {
             val neighbors = routeMap[location]
 
             neighbors?.forEach { neighbor ->
-                if (visited[neighbor.location] != true) {
+                if (!visited.getOrDefault(neighbor.location, false)) {
                     visited[neighbor.location] = true
                     priorLocations[neighbor.location] = location
 
