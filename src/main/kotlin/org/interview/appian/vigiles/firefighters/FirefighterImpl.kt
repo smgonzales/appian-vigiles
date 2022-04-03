@@ -52,18 +52,16 @@ class FirefighterImpl(private val city: City) : Firefighter {
             val location = queue.removeFirst()
             val neighbors = routeMap[location]
 
-            if (neighbors != null) {
-                for (neighbor in neighbors) {
-                    if (visited[neighbor.location] != true) {
-                        visited[neighbor.location] = true
-                        priorLocations[neighbor.location] = location
+            neighbors?.forEach { neighbor ->
+                if (visited[neighbor.location] != true) {
+                    visited[neighbor.location] = true
+                    priorLocations[neighbor.location] = location
 
-                        if (neighbor.location == burningLocation) {
-                            queue.clear()
-                            break
-                        } else {
-                            queue.add(neighbor.location)
-                        }
+                    if (neighbor.location == burningLocation) {
+                        queue.clear()
+                        return
+                    } else {
+                        queue.add(neighbor.location)
                     }
                 }
             }
