@@ -36,7 +36,7 @@ class FirefighterImpl(private val city: City) : Firefighter {
      */
     private fun travelToBuilding(
         burningLocation: CityNode,
-        priorLocation: MutableMap<CityNode, CityNode>,
+        priorLocations: MutableMap<CityNode, CityNode>,
         routeMap: RouteMap
     ) {
         // Queue initialized with current location of firefighter.
@@ -56,7 +56,7 @@ class FirefighterImpl(private val city: City) : Firefighter {
                 for (neighbor in neighbors) {
                     if (visited[neighbor.location] != true) {
                         visited[neighbor.location] = true
-                        priorLocation[neighbor.location] = location
+                        priorLocations[neighbor.location] = location
 
                         if (neighbor.location == burningLocation) {
                             queue.clear()
