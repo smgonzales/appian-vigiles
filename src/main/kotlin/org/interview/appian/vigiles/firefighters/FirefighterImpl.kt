@@ -1,9 +1,9 @@
 package org.interview.appian.vigiles.firefighters
 
+import org.interview.appian.vigiles.api.Building
 import org.interview.appian.vigiles.api.City
 import org.interview.appian.vigiles.api.CityNode
 import org.interview.appian.vigiles.api.Firefighter
-import org.interview.appian.vigiles.api.RouteMap
 
 class FirefighterImpl(private val city: City) : Firefighter {
 
@@ -18,11 +18,11 @@ class FirefighterImpl(private val city: City) : Firefighter {
         return distance
     }
 
-    override fun fightFire(burningLocation: CityNode, routeMap: RouteMap) {
+    override fun fightFire(burningLocation: CityNode) {
         // Used to keep track of the prior travel location from each city node as the firefighter travels.
         val priorLocations = mutableMapOf<CityNode, CityNode>()
 
-        travelToBuilding(burningLocation, priorLocations, routeMap)
+        travelToBuilding(burningLocation, priorLocations)
         val path = resolvePath(burningLocation, priorLocations)
 
         location = path.last()
@@ -33,28 +33,28 @@ class FirefighterImpl(private val city: City) : Firefighter {
 
     /**
      * DFS using adjacent list (RouteMap) and iterative queue approach to find shortest path to burning location.
+     * Just a slight variation with using a prebuilt neighbor map/list.
      */
     private fun travelToBuilding(
         burningLocation: CityNode,
-        priorLocations: MutableMap<CityNode, CityNode>,
-        routeMap: RouteMap
+        priorLocations: MutableMap<CityNode, CityNode>
     ) {
         // Queue initialized with current location of firefighter.
         val queue = ArrayDeque<CityNode>()
         queue.add(getLocation())
 
         // Keep track of where we've been.
-        val visited = mutableMapOf<CityNode, Boolean>()
-        visited[getLocation()] = true
+        val visited = Array(city.getXDimension()) { Array(city.getYDimension()) { false } }
+        visited[location.x][location.y] = true
 
         // DFS algorithm.  We'll stop when we find our burning building.
         while (queue.isNotEmpty()) {
             val location = queue.removeFirst()
-            val neighbors = routeMap[location]
+            val neighbors = getNeighbors(location)
 
-            neighbors?.forEach { neighbor ->
-                if (!visited.getOrDefault(neighbor.location, false)) {
-                    visited[neighbor.location] = true
+            neighbors.forEach { neighbor ->
+                if (!visited[neighbor.location.x][neighbor.location.y]) {
+                    visited[neighbor.location.x][neighbor.location.y] = true
                     priorLocations[neighbor.location] = location
 
                     if (neighbor.location == burningLocation) {
@@ -66,6 +66,34 @@ class FirefighterImpl(private val city: City) : Firefighter {
                 }
             }
         }
+    }
+
+    /**
+     * Get neighboring buildings to the specified location.
+     */
+    private fun getNeighbors(location: CityNode): List<Building> {
+        val neighbors = mutableListOf<Building>()
+
+        val xDimension = city.getXDimension()
+        val yDimension = city.getYDimension()
+
+        if ((location.x - 1) >= 0) {
+            neighbors.add(city.getBuilding((location.x - 1), location.y))
+        }
+
+        if ((location.x + 1) < xDimension) {
+            neighbors.add(city.getBuilding((location.x + 1), location.y))
+        }
+
+        if ((location.y - 1) >= 0) {
+            neighbors.add(city.getBuilding(location.x, (location.y - 1)))
+        }
+
+        if ((location.y + 1) < yDimension) {
+            neighbors.add(city.getBuilding(location.x, (location.y + 1)))
+        }
+
+        return neighbors
     }
 
     /**

@@ -1,8 +1,5 @@
 package org.interview.appian.vigiles.api
 
-// More readable typealias name.
-typealias RouteMap = MutableMap<CityNode, MutableList<Building>>
-
 interface Firefighter {
 
     /**
@@ -24,7 +21,6 @@ interface Firefighter {
      * Sends a firefighter to fight a fire at the specified city location with the given route map.
      *
      * @param burningLocation
-     * @param routeMap
      */
-    fun fightFire(burningLocation: CityNode, routeMap: RouteMap)
+    fun fightFire(burningLocation: CityNode)
 }
