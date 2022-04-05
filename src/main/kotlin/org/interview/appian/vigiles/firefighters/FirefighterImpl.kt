@@ -41,7 +41,7 @@ class FirefighterImpl(private val city: City) : Firefighter {
 
     /**
      * Alternative recursive DFS using adjacent list (RouteMap) and queue approach to find
-     * shortest path to burning location.
+     * shortest path to burning location.  Variation of algorithm showing recursion.
      */
     private fun travelToBuilding(
         burningLocation: CityNode,
