@@ -32,7 +32,7 @@ class FirefighterImpl(private val city: City) : Firefighter {
     }
 
     /**
-     * DFS using adjacent list (RouteMap) and iterative queue approach to find shortest path to burning location.
+     * BFS using adjacent list (RouteMap) and iterative queue approach to find shortest path to burning location.
      * Just a slight variation with using a prebuilt neighbor map/list.
      */
     private fun travelToBuilding(
@@ -47,7 +47,7 @@ class FirefighterImpl(private val city: City) : Firefighter {
         val visited = Array(city.getXDimension()) { Array(city.getYDimension()) { false } }
         visited[location.x][location.y] = true
 
-        // DFS algorithm.  We'll stop when we find our burning building.
+        // BFS algorithm.  We'll stop when we find our burning building.
         while (queue.isNotEmpty()) {
             val location = queue.removeFirst()
             val neighbors = getNeighbors(location)
@@ -97,7 +97,7 @@ class FirefighterImpl(private val city: City) : Firefighter {
     }
 
     /**
-     * Resolve the DFS path by examining the prior traveled locations.
+     * Resolve the BFS path by examining the prior traveled locations.
      *
      * @return [List<CityNode>] city paths to from a starting city node to the burning building.
      */
