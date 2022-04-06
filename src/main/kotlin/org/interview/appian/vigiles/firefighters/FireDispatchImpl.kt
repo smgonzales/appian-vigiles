@@ -43,7 +43,7 @@ class FireDispatchImpl(private val city: City) : FireDispatch {
     }
 
     /**
-     * Build our adjacent list for our DFS algorithm.  We'll reuse the list for each firefighter instead
+     * Build our adjacent list for our BFS algorithm.  We'll reuse the list for each firefighter instead
      * of having to build the list individually for each firefighter and recompute neighbor boundaries.
      */
     private fun createRouteMap() {
